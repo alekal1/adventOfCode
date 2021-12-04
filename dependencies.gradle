@@ -1,0 +1,15 @@
+ext.versions = [
+        slf4j   : '1.7.30',
+        lombok  : '1.18.22',
+        checkStyle : '8.36.1'
+]
+
+ext.deps = [
+        logging : [
+                "org.slf4j:slf4j-api:$versions.slf4j",
+                "org.slf4j:slf4j-log4j12:$versions.slf4j"
+        ],
+        lombok: [
+                "org.projectlombok:lombok:$versions.lombok"
+        ]
+]
