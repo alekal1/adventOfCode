@@ -41,7 +41,7 @@ public class FileUtils {
         return inputs;
     }
 
-    public static List<Movement> getDepth(String resource) {
+    public static List<Movement> getInputAsMovement(String resource) {
         var depth = new ArrayList<Movement>();
         try {
             var streamResource = FindMeasurements.class.getResourceAsStream(resource);

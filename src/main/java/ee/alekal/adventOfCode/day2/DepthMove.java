@@ -11,12 +11,12 @@ import static ee.alekal.adventOfCode.day2.dto.MovementType.UP;
 import static ee.alekal.adventOfCode.util.Constants.ZERO;
 import static ee.alekal.adventOfCode.util.DefaultLogger.LOG;
 import static ee.alekal.adventOfCode.util.DefaultLogger.logMovementTypeCount;
-import static ee.alekal.adventOfCode.util.FileUtils.getDepth;
+import static ee.alekal.adventOfCode.util.FileUtils.getInputAsMovement;
 
 public class DepthMove {
 
     private static final String RESOURCE = "/day2/depth.txt";
-    private static final List<Movement> DEPTH_INPUT = getDepth(RESOURCE);
+    private static final List<Movement> DEPTH_INPUT = getInputAsMovement(RESOURCE);
     static {
         LOG.debug("Depth input size {}", DEPTH_INPUT.size());
         logMovementTypeCount(DEPTH_INPUT, FORWARD);
