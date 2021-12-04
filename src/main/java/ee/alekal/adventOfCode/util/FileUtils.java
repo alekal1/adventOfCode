@@ -1,6 +1,6 @@
 package ee.alekal.adventOfCode.util;
 
-import ee.alekal.adventOfCode.day1.Puzzle01;
+import ee.alekal.adventOfCode.day1.FindMeasurements;
 import ee.alekal.adventOfCode.day2.dto.MovementType;
 import ee.alekal.adventOfCode.day2.dto.Movement;
 
@@ -14,7 +14,7 @@ public class FileUtils {
     public static List<Integer> getMeasurements(String resource) {
         var inputs = new ArrayList<Integer>();
         try {
-            var streamResource = Puzzle01.class.getResourceAsStream(resource);
+            var streamResource = FindMeasurements.class.getResourceAsStream(resource);
             var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
             String line;
             while ((line = bufferReader.readLine()) != null) {
@@ -29,7 +29,7 @@ public class FileUtils {
     public static List<Movement> getDepth(String resource) {
         var depth = new ArrayList<Movement>();
         try {
-            var streamResource = Puzzle01.class.getResourceAsStream(resource);
+            var streamResource = FindMeasurements.class.getResourceAsStream(resource);
             var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
             String line;
             while ((line = bufferReader.readLine()) != null) {

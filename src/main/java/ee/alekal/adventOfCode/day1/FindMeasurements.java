@@ -8,7 +8,7 @@ import static ee.alekal.adventOfCode.util.FileUtils.getMeasurements;
 import static ee.alekal.adventOfCode.util.IntegerUtils.getInputsAsArray;
 import static ee.alekal.adventOfCode.util.IntegerUtils.sumFirstThreeElements;
 
-public class Puzzle01 {
+public class FindMeasurements {
 
     private static final String RESOURCE = "/day1/measurements.txt";
     private static final List<Integer> MEASUREMENTS = getMeasurements(RESOURCE);

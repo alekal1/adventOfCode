@@ -13,7 +13,7 @@ import static ee.alekal.adventOfCode.util.DefaultLogger.LOG;
 import static ee.alekal.adventOfCode.util.DefaultLogger.logMovementTypeCount;
 import static ee.alekal.adventOfCode.util.FileUtils.getDepth;
 
-public class Puzzle02 {
+public class DepthMove {
 
     private static final String RESOURCE = "/day2/depth.txt";
     private static final List<Movement> DEPTH_INPUT = getDepth(RESOURCE);
