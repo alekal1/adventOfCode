@@ -4,14 +4,14 @@ import java.util.List;
 
 import static ee.alekal.adventOfCode.util.Constants.ZERO;
 import static ee.alekal.adventOfCode.util.DefaultLogger.LOG;
-import static ee.alekal.adventOfCode.util.FileUtils.getMeasurements;
+import static ee.alekal.adventOfCode.util.FileUtils.getInputAsInteger;
 import static ee.alekal.adventOfCode.util.IntegerUtils.getInputsAsArray;
 import static ee.alekal.adventOfCode.util.IntegerUtils.sumFirstThreeElements;
 
 public class FindMeasurements {
 
     private static final String RESOURCE = "/day1/measurements.txt";
-    private static final List<Integer> MEASUREMENTS = getMeasurements(RESOURCE);
+    private static final List<Integer> MEASUREMENTS = getInputAsInteger(RESOURCE);
 
     public static int findLarges() {
         var inputsAsArray = getInputsAsArray(MEASUREMENTS);

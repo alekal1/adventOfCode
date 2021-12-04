@@ -7,7 +7,7 @@ plugins {
 }
 
 
-version '1.4.0'
+version '1.5.0'
 
 repositories {
     mavenCentral()
@@ -28,6 +28,11 @@ task puzzle1(type: JavaExec) {
 task puzzle2(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = "ee.alekal.adventOfCode.day2.DepthMove"
+}
+
+task puzzle3(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = "ee.alekal.adventOfCode.day3.BinaryDiagnostics"
 }
 
 

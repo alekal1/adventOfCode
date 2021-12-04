@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FileUtils {
 
-    public static List<Integer> getMeasurements(String resource) {
+    public static List<Integer> getInputAsInteger(String resource) {
         var inputs = new ArrayList<Integer>();
         try {
             var streamResource = FindMeasurements.class.getResourceAsStream(resource);
@@ -19,6 +19,21 @@ public class FileUtils {
             String line;
             while ((line = bufferReader.readLine()) != null) {
                 inputs.add(Integer.parseInt(line));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading resource " + resource);
+        }
+        return inputs;
+    }
+
+    public static List<String> getInputAsString(String resource) {
+        var inputs = new ArrayList<String>();
+        try {
+            var streamResource = FindMeasurements.class.getResourceAsStream(resource);
+            var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
+            String line;
+            while ((line = bufferReader.readLine()) != null) {
+                inputs.add(line);
             }
         } catch (Exception e) {
             throw new RuntimeException("Error reading resource " + resource);
@@ -40,7 +55,7 @@ public class FileUtils {
                 ));
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error reading resource " + resource);
+            throw new RuntimeException("Error reading resource " + resource, e);
         }
         return depth;
     }
