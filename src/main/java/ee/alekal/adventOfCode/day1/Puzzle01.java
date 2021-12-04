@@ -1,5 +1,7 @@
 package ee.alekal.adventOfCode.day1;
 
+import java.util.List;
+
 import static ee.alekal.adventOfCode.util.Constants.ZERO;
 import static ee.alekal.adventOfCode.util.DefaultLogger.LOG;
 import static ee.alekal.adventOfCode.util.FileUtils.getMeasurements;
@@ -8,10 +10,11 @@ import static ee.alekal.adventOfCode.util.IntegerUtils.sumFirstThreeElements;
 
 public class Puzzle01 {
 
-    private final static String RESOURCE = "/day1/measurements.txt";
+    private static final String RESOURCE = "/day1/measurements.txt";
+    private static final List<Integer> MEASUREMENTS = getMeasurements(RESOURCE);
 
     public static int findLarges() {
-        var inputsAsArray = getInputsAsArray(getMeasurements(RESOURCE));
+        var inputsAsArray = getInputsAsArray(MEASUREMENTS);
         var different = ZERO;
         for (int i = ZERO; i < inputsAsArray.length - 1; i++) {
             if (inputsAsArray[i] < inputsAsArray[i + 1]) different++;
@@ -20,14 +23,13 @@ public class Puzzle01 {
     }
 
     public static int findSum() {
-        var inputs = getMeasurements(RESOURCE);
         var sumIsLarger = ZERO;
-        while (inputs.size() > 3) {
-            var currentSum = sumFirstThreeElements(inputs);
+        while (MEASUREMENTS.size() > 3) {
+            var currentSum = sumFirstThreeElements(MEASUREMENTS);
 
-            inputs.remove(0);
+            MEASUREMENTS.remove(ZERO);
 
-            var nextSum = sumFirstThreeElements(inputs);
+            var nextSum = sumFirstThreeElements(MEASUREMENTS);
 
             if (nextSum > currentSum) {
                 sumIsLarger++;
