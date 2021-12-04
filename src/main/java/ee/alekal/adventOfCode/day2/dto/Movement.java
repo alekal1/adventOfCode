@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class Movement {
-    public final MovementType movementType;
-    public final Integer movementValue;
+    private final MovementType movementType;
+    private final Integer movementValue;
 
     @Override
     public String toString() {

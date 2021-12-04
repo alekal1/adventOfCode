@@ -1,5 +1,6 @@
 package ee.alekal.adventOfCode.day1;
 
+import static ee.alekal.adventOfCode.util.Constants.ZERO;
 import static ee.alekal.adventOfCode.util.DefaultLogger.LOG;
 import static ee.alekal.adventOfCode.util.FileUtils.getMeasurements;
 import static ee.alekal.adventOfCode.util.IntegerUtils.getInputsAsArray;
@@ -8,7 +9,6 @@ import static ee.alekal.adventOfCode.util.IntegerUtils.sumFirstThreeElements;
 public class Puzzle01 {
 
     private final static String RESOURCE = "/day1/measurements.txt";
-    private final static Integer ZERO = 0;
 
     public static int findLarges() {
         var inputsAsArray = getInputsAsArray(getMeasurements(RESOURCE));

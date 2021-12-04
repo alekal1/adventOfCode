@@ -23,6 +23,6 @@ public class DefaultLogger {
     }
 
     private static Predicate<Movement> createMovementPredicateFilter(MovementType type) {
-        return movement -> movement.movementType.equals(type);
+        return movement -> type.equals(movement.getMovementType());
     }
 }
