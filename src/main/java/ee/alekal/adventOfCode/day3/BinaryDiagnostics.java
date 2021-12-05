@@ -1,6 +1,10 @@
 package ee.alekal.adventOfCode.day3;
 
+import ee.alekal.adventOfCode.day3.dto.RatingType;
+import lombok.val;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +12,11 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static ee.alekal.adventOfCode.day3.dto.RatingType.CO2;
+import static ee.alekal.adventOfCode.day3.dto.RatingType.OXYGEN;
+import static ee.alekal.adventOfCode.util.Constants.BINARY_ONE;
+import static ee.alekal.adventOfCode.util.Constants.BINARY_ZERO;
+import static ee.alekal.adventOfCode.util.Constants.ONE;
 import static ee.alekal.adventOfCode.util.Constants.ZERO;
 import static ee.alekal.adventOfCode.util.DefaultLogger.LOG;
 import static ee.alekal.adventOfCode.util.FileUtils.getInputAsString;
@@ -18,9 +27,9 @@ public class BinaryDiagnostics {
     private static final String RESOURCE = "/day3/diagnostics.txt";
     private static final List<String> BINARY_INPUT = getInputAsString(RESOURCE);
 
-    private static HashMap<Integer, List<String>> collectValuesByIndex() {
+    private static HashMap<Integer, List<String>> collectValuesByIndex(List<String> input) {
         var valuesMap = new HashMap<Integer, List<String>>();
-        for (var binary : BINARY_INPUT) {
+        for (var binary : input) {
             var charArray = binary.toCharArray();
 
             for (int i = ZERO; i < charArray.length; i++) {
@@ -36,8 +45,8 @@ public class BinaryDiagnostics {
 
     private static String getBinaryGammaRate() {
         StringBuilder stringBuilder = new StringBuilder();
-        var map = collectValuesByIndex();
-        for (Map.Entry<Integer, List<String>> entry : map.entrySet()) {
+        var binaryInputMap = collectValuesByIndex(BINARY_INPUT);
+        for (Map.Entry<Integer, List<String>> entry : binaryInputMap.entrySet()) {
             stringBuilder.append(findMostCommon(entry.getValue()));
         }
         return stringBuilder.toString();
@@ -45,8 +54,8 @@ public class BinaryDiagnostics {
 
     private static String getBinaryEpsilonRate() {
         StringBuilder stringBuilder = new StringBuilder();
-        var map = collectValuesByIndex();
-        for (Map.Entry<Integer, List<String>> entry : map.entrySet()) {
+        var binaryInputMap = collectValuesByIndex(BINARY_INPUT);
+        for (Map.Entry<Integer, List<String>> entry : binaryInputMap.entrySet()) {
             stringBuilder.append(findLessCommon(entry.getValue()));
         }
         return stringBuilder.toString();
@@ -81,9 +90,69 @@ public class BinaryDiagnostics {
         return Long.parseLong(binaryEpsilon, 2);
     }
 
-    public static void main(String[] args) {
+    private static long getRatingTypeInDecimal(RatingType type) {
+
+        var copyOfInput = BINARY_INPUT;
+        val binaryCondition = getBinaryCondition(type);
+
+        var size = copyOfInput.size();
+        var i = ZERO;
+        while (size != ONE){
+            var tempInput = collectValuesByIndex(copyOfInput);
+
+            var tempIndexList = tempInput.get(i);
+
+            val index = i;
+            if (zerosAreMoreFrequently(tempIndexList)) {
+                copyOfInput = copyOfInput.stream()
+                        .filter(s -> binaryCondition.get(ZERO).equals(String.valueOf(s.charAt(index))))
+                        .collect(Collectors.toList());
+            } else {
+                copyOfInput = copyOfInput.stream()
+                        .filter(s -> binaryCondition.get(ONE).equals(String.valueOf(s.charAt(index))))
+                        .collect(Collectors.toList());
+            }
+            i++;
+            size = copyOfInput.size();
+        }
+
+        return Long.parseLong(copyOfInput.get(ZERO), 2);
+    }
+
+    private static Map<Integer, String> getBinaryCondition(RatingType type) {
+        var conditionMap = new HashMap<Integer, String>();
+        String binaryFirstValue;
+        String binarySecondValue;
+        if (OXYGEN.equals(type)) {
+            binaryFirstValue = BINARY_ZERO;
+            binarySecondValue = BINARY_ONE;
+        } else {
+            binaryFirstValue = BINARY_ONE;
+            binarySecondValue = BINARY_ZERO;
+        }
+        conditionMap.put(ZERO, binaryFirstValue);
+        conditionMap.put(ONE, binarySecondValue);
+        return conditionMap;
+    }
+
+    private static boolean zerosAreMoreFrequently(List<String> values) {
+        var zeros = Collections.frequency(values, "0");
+        var ones = Collections.frequency(values, "1");
+        return zeros > ones;
+    }
+
+    private static long part1() {
         var gammaDecimal = findGammaRateDecimal();
         var epsilonDecimal = findEpsilonRateDecimal();
-        LOG.debug("Answer for part one is {}", gammaDecimal * epsilonDecimal);
+        return gammaDecimal * epsilonDecimal;
+    }
+
+    private static long part2() {
+        return getRatingTypeInDecimal(OXYGEN) * getRatingTypeInDecimal(CO2);
+    }
+
+    public static void main(String[] args) {
+        LOG.debug("Answer for part one is {}", part1());
+        LOG.debug("Answer for second part is {}", part2());
     }
 }
