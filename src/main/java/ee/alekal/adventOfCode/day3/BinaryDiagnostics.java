@@ -136,8 +136,8 @@ public class BinaryDiagnostics {
     }
 
     private static boolean zerosAreMoreFrequently(List<String> values) {
-        var zeros = Collections.frequency(values, "0");
-        var ones = Collections.frequency(values, "1");
+        var zeros = Collections.frequency(values, BINARY_ZERO);
+        var ones = Collections.frequency(values, BINARY_ONE);
         return zeros > ones;
     }
 
