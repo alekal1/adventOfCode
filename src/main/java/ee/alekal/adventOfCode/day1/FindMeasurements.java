@@ -5,8 +5,8 @@ import java.util.List;
 import static ee.alekal.adventOfCode.util.Constants.ZERO;
 import static ee.alekal.adventOfCode.util.DefaultLogger.LOG;
 import static ee.alekal.adventOfCode.util.FileUtils.getInputAsInteger;
-import static ee.alekal.adventOfCode.util.IntegerUtils.getInputsAsArray;
-import static ee.alekal.adventOfCode.util.IntegerUtils.sumFirstThreeElements;
+import static ee.alekal.adventOfCode.util.CommonUtils.getInputsIntegerAsArray;
+import static ee.alekal.adventOfCode.util.CommonUtils.sumFirstThreeElements;
 
 public class FindMeasurements {
 
@@ -14,7 +14,7 @@ public class FindMeasurements {
     private static final List<Integer> MEASUREMENTS = getInputAsInteger(RESOURCE);
 
     public static int findLarges() {
-        var inputsAsArray = getInputsAsArray(MEASUREMENTS);
+        var inputsAsArray = getInputsIntegerAsArray(MEASUREMENTS);
         var different = ZERO;
         for (int i = ZERO; i < inputsAsArray.length - 1; i++) {
             if (inputsAsArray[i] < inputsAsArray[i + 1]) different++;

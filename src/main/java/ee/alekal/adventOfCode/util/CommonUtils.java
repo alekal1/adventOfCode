@@ -2,10 +2,15 @@ package ee.alekal.adventOfCode.util;
 
 import java.util.List;
 
-public class IntegerUtils {
+public class CommonUtils {
 
-    public static Integer[] getInputsAsArray(List<Integer> inputs) {
+    public static Integer[] getInputsIntegerAsArray(List<Integer> inputs) {
         var array = new Integer[inputs.size()];
+        return inputs.toArray(array);
+    }
+
+    public static String[] getInputsStringAsArray(List<String> inputs) {
+        var array = new String[inputs.size()];
         return inputs.toArray(array);
     }
 
