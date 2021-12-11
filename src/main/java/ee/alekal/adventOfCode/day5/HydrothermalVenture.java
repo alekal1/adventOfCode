@@ -18,32 +18,45 @@ public class HydrothermalVenture {
 
     private static final List<Coordinates> coordinatesList = getInputAsCoordinates("/day5/coordinates.txt");
 
-    private static long onlyHorizontalAndVertical() {
+    private static HashMap<String, Integer> findOverLapPointsNonDiagonal(List<Coordinates> listOfCoordinates) {
 
         var pointsMap = new HashMap<String, Integer>();
-        var filteredOutput = getFilteredOutput();
 
-        for (var coordinate : filteredOutput) {
-            getOverLapPoints(coordinate, pointsMap);
+        for (var coordinate : listOfCoordinates) {
+            getOverLapPointsNonDiagonal(coordinate, pointsMap);
         }
 
-        return pointsMap.entrySet().stream()
-                .filter(entry -> entry.getValue() > ONE)
-                .count();
+        return pointsMap;
     }
 
-    private static List<Coordinates> getFilteredOutput() {
-        Predicate<Coordinates> xEquals = coordinates ->
-                coordinates.getStartPoint().getX() == coordinates.getEndPoint().getX();
-        Predicate<Coordinates> yEquals = coordinates ->
-                coordinates.getStartPoint().getY() == coordinates.getEndPoint().getY();
+    private static HashMap<String, Integer> findOverLapPointsWithDiagonal(List<Coordinates> listOfCoordinates,
+                                                                          HashMap<String, Integer> overLapPoints) {
 
-        return coordinatesList.stream()
-                .filter(xEquals.or(yEquals))
-                .collect(Collectors.toList());
+        for (var c : listOfCoordinates) {
+            getOverLapPointsDiagonal(c, overLapPoints);
+        }
+        return overLapPoints;
     }
 
-    private static void getOverLapPoints(Coordinates coordinates, HashMap<String, Integer> overLapPoints) {
+
+    private static void getOverLapPointsDiagonal(Coordinates coordinates, HashMap<String, Integer> overLapPoints) {
+        var startPoint = coordinates.getStartPoint();
+        var endPoint = coordinates.getEndPoint();
+
+        increasePointValue(overLapPoints, startPoint);
+
+        int counter = 1;
+        var tempPoint = Point.builder().build();
+        while (tempPoint.getX() != endPoint.getX()
+            || tempPoint.getY() != endPoint.getY()) {
+            tempPoint = getTempHorizontalPoint(startPoint, endPoint, counter);
+            increasePointValue(overLapPoints, tempPoint);
+            counter++;
+        }
+    }
+
+    private static void getOverLapPointsNonDiagonal(Coordinates coordinates,
+                                                    HashMap<String, Integer> overLapPoints) {
         var startPoint = coordinates.getStartPoint();
         var endPoint = coordinates.getEndPoint();
 
@@ -68,13 +81,74 @@ public class HydrothermalVenture {
                             .build();
                     break;
             }
-            var value = overLapPoints.getOrDefault(tempPoint.toString(), ZERO);
-            overLapPoints.put(tempPoint.toString(), value + ONE);
+            increasePointValue(overLapPoints, tempPoint);
             counter--;
         }
     }
 
+    private static List<Coordinates> getFilteredHorizontalVerticalOutput() {
+        Predicate<Coordinates> xEquals = coordinates ->
+                coordinates.getStartPoint().getX() == coordinates.getEndPoint().getX();
+        Predicate<Coordinates> yEquals = coordinates ->
+                coordinates.getStartPoint().getY() == coordinates.getEndPoint().getY();
+
+        return coordinatesList.stream()
+                .filter(xEquals.or(yEquals))
+                .collect(Collectors.toList());
+    }
+
+
+    private static Point getTempHorizontalPoint(Point startPoint, Point endPoint, int counter) {
+        if (startPoint.getX() < endPoint.getX()) {
+            if (startPoint.getY() < endPoint.getY()) {
+                return Point.builder()
+                        .x(startPoint.getX() + counter)
+                        .y(startPoint.getY() + counter)
+                        .build();
+            } else {
+                return Point.builder()
+                        .x(startPoint.getX() + counter)
+                        .y(startPoint.getY() - counter)
+                        .build();
+            }
+        }
+        if (startPoint.getX() > endPoint.getX()) {
+            if (startPoint.getY() < endPoint.getY()) {
+                return Point.builder()
+                        .x(startPoint.getX() - counter)
+                        .y(startPoint.getY() + counter)
+                        .build();
+            } else {
+                return Point.builder()
+                        .x(startPoint.getX() - counter)
+                        .y(startPoint.getY() - counter)
+                        .build();
+            }
+        }
+        throw new IllegalArgumentException("Cannot create horizontal point.");
+    }
+
+    private static void increasePointValue(HashMap<String, Integer> map, Point point) {
+        var value = map.getOrDefault(point.toString(), ZERO);
+        map.put(point.toString(), value + ONE);
+    }
+
     public static void main(String[] args) {
-        LOG.debug("Answer for part one {}", onlyHorizontalAndVertical());
+        var horizontalVerticalFilterOutput = getFilteredHorizontalVerticalOutput();
+
+        var partOneOverLapPoints = findOverLapPointsNonDiagonal(horizontalVerticalFilterOutput);
+
+        var partOneAnswer = partOneOverLapPoints.entrySet().stream()
+                .filter(entry -> entry.getValue() > ONE)
+                .count();
+        LOG.debug("Answer for part one {}", partOneAnswer);
+
+
+        coordinatesList.removeAll(horizontalVerticalFilterOutput);
+        var partTwoAnswer = findOverLapPointsWithDiagonal(coordinatesList, partOneOverLapPoints)
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() > ONE)
+                .count();
+        LOG.debug("Answer for part two {}", partTwoAnswer);
     }
 }
