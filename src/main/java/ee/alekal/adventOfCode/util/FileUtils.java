@@ -5,6 +5,7 @@ import ee.alekal.adventOfCode.day2.dto.Movement;
 import ee.alekal.adventOfCode.day2.dto.MovementType;
 import ee.alekal.adventOfCode.day4.dto.BingoBoard;
 import ee.alekal.adventOfCode.day4.service.GameEngine;
+import ee.alekal.adventOfCode.day5.dto.Coordinates;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static ee.alekal.adventOfCode.util.CommonUtils.getInputsStringAsArray;
 import static ee.alekal.adventOfCode.util.Constants.DEFAULT_GAME_SCALE;
+import static ee.alekal.adventOfCode.util.Constants.ONE;
 import static ee.alekal.adventOfCode.util.Constants.SPACE_REGEX;
 import static ee.alekal.adventOfCode.util.Constants.ZERO;
 
@@ -104,6 +106,35 @@ public class FileUtils {
         }
         boards.remove(ZERO); // Remove first element, because it was initial empty line.
         return managerBuilder.addAllBoards(boards).build();
+    }
+
+    public static List<Coordinates> getInputAsCoordinates(String resource) {
+        var coordinates = new ArrayList<Coordinates>();
+        try {
+            var streamResource = FindMeasurements.class.getResourceAsStream(resource);
+            var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
+            String line;
+            while ((line = bufferReader.readLine()) != null) {
+                var builder = Coordinates.Builder.builder();
+                var splitedLine = removeInsideSpaces(line.split("->"));
+
+                var firstPair = Arrays.stream(splitedLine[ZERO].split(","))
+                                    .mapToInt(Integer::parseInt).toArray();
+
+                var secondPair = Arrays.stream(splitedLine[ONE].split(","))
+                        .mapToInt(Integer::parseInt).toArray();
+
+                var coordinate = builder
+                        .setStartPoint(firstPair[ZERO], firstPair[ONE])
+                        .setEndPoint(secondPair[ZERO], secondPair[ONE])
+                        .build();
+
+                coordinates.add(coordinate);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading resource " + resource, e);
+        }
+        return coordinates;
     }
 
     private static String[] removeInsideSpaces(String[] values) {

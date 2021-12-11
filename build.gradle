@@ -7,7 +7,7 @@ plugins {
 }
 
 
-version '1.8.0'
+version '2.0.0'
 
 repositories {
     mavenCentral()
@@ -20,24 +20,28 @@ dependencies {
     annotationProcessor deps.lombok
 }
 
-task puzzle1(type: JavaExec) {
+tasks.withType(JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
+}
+
+task day1(type: JavaExec) {
     main = "ee.alekal.adventOfCode.day1.FindMeasurements"
 }
 
-task puzzle2(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
+task day2(type: JavaExec) {
     main = "ee.alekal.adventOfCode.day2.DepthMove"
 }
 
-task puzzle3(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
+task day3(type: JavaExec) {
     main = "ee.alekal.adventOfCode.day3.BinaryDiagnostics"
 }
 
-task puzzle4(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
+task day4(type: JavaExec) {
     main = "ee.alekal.adventOfCode.day4.BingoSquid"
+}
+
+task day5(type: JavaExec) {
+    main = "ee.alekal.adventOfCode.day5.HydrothermalVenture"
 }
 
 
