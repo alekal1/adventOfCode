@@ -43,7 +43,7 @@ public class FileUtils {
         return inputs;
     }
 
-    public static List<Integer> getInputAsFishDays(String resource) {
+    public static List<Integer> getInputOfSingleLineIntegers(String resource) {
         try {
             var streamResource = LanternFish.class.getResourceAsStream(resource);
             var bufferReader = new BufferedReader(new InputStreamReader(streamResource));

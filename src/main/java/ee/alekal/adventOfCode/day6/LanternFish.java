@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static ee.alekal.adventOfCode.util.DefaultLogger.LOG;
-import static ee.alekal.adventOfCode.util.FileUtils.getInputAsFishDays;
+import static ee.alekal.adventOfCode.util.FileUtils.getInputOfSingleLineIntegers;
 
 public class LanternFish {
 
@@ -52,10 +52,10 @@ public class LanternFish {
 
     public static void main(String[] args) {
         val resource = "/day6/fish.txt";
-        var fishDaysPartOne = getInputAsFishDays(resource);
+        var fishDaysPartOne = getInputOfSingleLineIntegers(resource);
         LOG.debug("Answer for part one is {}", growthPredictionShortPeriod(80, fishDaysPartOne));
 
-        var fishDaysPartTwo = getInputAsFishDays(resource);
+        var fishDaysPartTwo = getInputOfSingleLineIntegers(resource);
         var arrayOfFishDays = getFishInputAsArray(fishDaysPartTwo);
         LOG.debug("Answer for part two is {}", growthPredictionLongPeriod(256, arrayOfFishDays));
     }
