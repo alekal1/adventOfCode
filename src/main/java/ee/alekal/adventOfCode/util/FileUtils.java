@@ -1,11 +1,16 @@
 package ee.alekal.adventOfCode.util;
 
 import ee.alekal.adventOfCode.day1.FindMeasurements;
+import ee.alekal.adventOfCode.day2.DepthMove;
 import ee.alekal.adventOfCode.day2.dto.Movement;
 import ee.alekal.adventOfCode.day2.dto.MovementType;
+import ee.alekal.adventOfCode.day3.BinaryDiagnostics;
+import ee.alekal.adventOfCode.day4.BingoSquid;
 import ee.alekal.adventOfCode.day4.dto.BingoBoard;
 import ee.alekal.adventOfCode.day4.service.GameEngine;
+import ee.alekal.adventOfCode.day5.HydrothermalVenture;
 import ee.alekal.adventOfCode.day5.dto.Coordinates;
+import ee.alekal.adventOfCode.day6.LanternFish;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -38,10 +43,23 @@ public class FileUtils {
         return inputs;
     }
 
+    public static List<Integer> getInputAsFishDays(String resource) {
+        try {
+            var streamResource = LanternFish.class.getResourceAsStream(resource);
+            var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
+            var line = bufferReader.readLine().split(",");
+            return Arrays.stream(line)
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading resource " + resource);
+        }
+    }
+
     public static List<String> getInputAsString(String resource) {
         var inputs = new ArrayList<String>();
         try {
-            var streamResource = FindMeasurements.class.getResourceAsStream(resource);
+            var streamResource = BinaryDiagnostics.class.getResourceAsStream(resource);
             var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
             String line;
             while ((line = bufferReader.readLine()) != null) {
@@ -56,7 +74,7 @@ public class FileUtils {
     public static List<Movement> getInputAsMovement(String resource) {
         var depth = new ArrayList<Movement>();
         try {
-            var streamResource = FindMeasurements.class.getResourceAsStream(resource);
+            var streamResource = DepthMove.class.getResourceAsStream(resource);
             var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
             String line;
             while ((line = bufferReader.readLine()) != null) {
@@ -77,7 +95,7 @@ public class FileUtils {
         var managerBuilder = GameEngine.GameEngineBuilder.builder();
         var firstSpace = false;
         try {
-            var streamResource = FindMeasurements.class.getResourceAsStream(resource);
+            var streamResource = BingoSquid.class.getResourceAsStream(resource);
             var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
             String line;
             BingoBoard.BingoBoardBuilder boardBuilder = BingoBoard.BingoBoardBuilder.builder(DEFAULT_GAME_SCALE);
@@ -111,7 +129,7 @@ public class FileUtils {
     public static List<Coordinates> getInputAsCoordinates(String resource) {
         var coordinates = new ArrayList<Coordinates>();
         try {
-            var streamResource = FindMeasurements.class.getResourceAsStream(resource);
+            var streamResource = HydrothermalVenture.class.getResourceAsStream(resource);
             var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
             String line;
             while ((line = bufferReader.readLine()) != null) {
