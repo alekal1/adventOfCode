@@ -7,7 +7,7 @@ plugins {
 }
 
 
-version '2.4.0'
+version '2.4.1'
 
 repositories {
     mavenCentral()
@@ -24,24 +24,20 @@ tasks.withType(JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task day1(type: JavaExec) {
-    main = "ee.alekal.adventOfCode.day1.FindMeasurements"
-}
+def days = [
+        "1": "FindMeasurements",
+        "2": "DepthMove",
+        "3": "BinaryDiagnostics",
+        "4": "BingoSquid",
+        "5": "HydrothermalVenture",
+        "6": "LanternFish",
+        "7": "Treachery"
+]
 
-task day2(type: JavaExec) {
-    main = "ee.alekal.adventOfCode.day2.DepthMove"
-}
-
-task day3(type: JavaExec) {
-    main = "ee.alekal.adventOfCode.day3.BinaryDiagnostics"
-}
-
-task day4(type: JavaExec) {
-    main = "ee.alekal.adventOfCode.day4.BingoSquid"
-}
-
-task day5(type: JavaExec) {
-    main = "ee.alekal.adventOfCode.day5.HydrothermalVenture"
+days.each {key, value ->
+    tasks.register("day$key", JavaExec) {
+        main = "ee.alekal.adventOfCode.day$key" + ".$value"
+    }
 }
 
 
