@@ -7,7 +7,7 @@ plugins {
 }
 
 
-version '2.4.1'
+version '2.5.0'
 
 repositories {
     mavenCentral()
@@ -31,7 +31,8 @@ def days = [
         "4": "BingoSquid",
         "5": "HydrothermalVenture",
         "6": "LanternFish",
-        "7": "Treachery"
+        "7": "Treachery",
+        "8": "SegmentSearch"
 ]
 
 days.each {key, value ->

@@ -11,6 +11,9 @@ import ee.alekal.adventOfCode.day4.service.GameEngine;
 import ee.alekal.adventOfCode.day5.HydrothermalVenture;
 import ee.alekal.adventOfCode.day5.dto.Coordinates;
 import ee.alekal.adventOfCode.day6.LanternFish;
+import ee.alekal.adventOfCode.day8.SegmentSearch;
+import ee.alekal.adventOfCode.day8.dto.SegmentObject;
+import ee.alekal.adventOfCode.day8.dto.SegmentOutput;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -88,6 +91,34 @@ public class FileUtils {
             throw new RuntimeException("Error reading resource " + resource, e);
         }
         return depth;
+    }
+
+    public static List<SegmentObject> getInputAsSegmentObjects(String resource) {
+        var segmentsObjects = new ArrayList<SegmentObject>();
+        try {
+            var streamResource = SegmentSearch.class.getResourceAsStream(resource);
+            var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
+            String line;
+            while ((line = bufferReader.readLine()) != null) {
+                var segmentBuilder = SegmentObject.Builder.builder();
+                var splitBetweenInAndOut = line.split("\\|");
+                var inputArray = splitBetweenInAndOut[0].split(" ");
+                Arrays.stream(inputArray).forEach(segmentBuilder::addSegmentInput);
+
+                var outputArray = splitBetweenInAndOut[1].split(" ");
+                Arrays.stream(outputArray).forEach(s -> {
+                    if (!s.isEmpty()) {
+                        var outputBuilder = SegmentOutput.Builder.builder();
+                        outputBuilder.setValue(s).setRepresents(s.length());
+                        segmentBuilder.addSegmentOutput(outputBuilder.build());
+                    }
+                });
+                segmentsObjects.add(segmentBuilder.build());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading resource " + resource, e);
+        }
+        return segmentsObjects;
     }
 
     public static GameEngine getInputAsBingoGameEngine(String resource) {
