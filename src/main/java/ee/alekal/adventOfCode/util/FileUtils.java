@@ -14,6 +14,7 @@ import ee.alekal.adventOfCode.day6.LanternFish;
 import ee.alekal.adventOfCode.day8.SegmentSearch;
 import ee.alekal.adventOfCode.day8.dto.SegmentObject;
 import ee.alekal.adventOfCode.day8.dto.SegmentOutput;
+import ee.alekal.adventOfCode.day9.SmokeBasin;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -184,6 +185,23 @@ public class FileUtils {
             throw new RuntimeException("Error reading resource " + resource, e);
         }
         return coordinates;
+    }
+
+    public static List<int[]> getSmokeBasinInput(String resource) {
+        var smokeBasin = new ArrayList<int[]>();
+        try {
+            var streamResource = SmokeBasin.class.getResourceAsStream(resource);
+            var bufferReader = new BufferedReader(new InputStreamReader(streamResource));
+            String line;
+            while ((line = bufferReader.readLine()) != null) {
+                var splitedLine = removeInsideSpaces(line.split(""));
+                var lineOfInts = Arrays.stream(splitedLine).mapToInt(Integer::parseInt).toArray();
+                smokeBasin.add(lineOfInts);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading resource " + resource, e);
+        }
+        return smokeBasin;
     }
 
     private static String[] removeInsideSpaces(String[] values) {
